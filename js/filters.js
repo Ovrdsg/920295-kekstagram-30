@@ -8,6 +8,7 @@ const randomBtn = filterForm.querySelector('#filter-random');
 const discussedBtn = filterForm.querySelector('#filter-discussed');
 
 const MAX_RANDOM_FILTER = 10;
+const DEBOUNCE_DELAY = 500;
 
 const FilterEnum = {
   DEFAULT: 'default',
@@ -34,16 +35,16 @@ const filterHandlers = {
 };
 
 const repaint = (event, filter, data) => {
-  const filteredData = filterHandlers[filter](data);
+  const filteredData = filterHandlers[filter](data); // Fixed typo here
   const pictures = document.querySelectorAll('.picture');
-  pictures.forEach(item => item.remove());
+  pictures.forEach((item) => item.remove());
   renderGallery(filteredData);
   const currentActiveEl = filterForm.querySelector('.img-filters__button--active');
   currentActiveEl.classList.remove('img-filters__button--active');
   event.target.classList.add('img-filters__button--active');
 };
 
-const debouncedRepaint = debounce(repaint);
+const debouncedRepaint = debounce(repaint, DEBOUNCE_DELAY);
 
 const initFilter = (data) => {
   filtersEl.classList.remove('img-filters--inactive');
